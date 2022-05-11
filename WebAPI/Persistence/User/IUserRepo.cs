@@ -2,5 +2,6 @@
 {
     public interface IUserRepo
     {
+        Task<Models.User> GetUserAsync(string email);
     }
 }
