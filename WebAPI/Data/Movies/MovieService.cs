@@ -7,22 +7,26 @@ namespace WebAPI.Data.Movies
     {
         string url = "https://api.themoviedb.org/3/movie/";
         HttpClient client;
+        private readonly IConfiguration configuration;
+        private string apiKey;
 
-        public MovieService()
+        public MovieService(IConfiguration iConfig)
         {
             client = new HttpClient();
+            configuration = iConfig;
+            apiKey = configuration["APIKeys:ApiKey"];
         }
 
         public async Task<Movie> GetMovieByID(int id)
         {
-            string message = await client.GetStringAsync(url + id + "?api_key=3294e1bdd7442d97a75d3a88e515b933");
+            string message = await client.GetStringAsync(url + id + apiKey);
             Movie movie = JsonSerializer.Deserialize<Movie>(message);
             return movie;
         }
 
         public async Task<MovieList> GetMovies(int page)
         {
-            var moviesUrl = "top_rated?api_key=3294e1bdd7442d97a75d3a88e515b933&language=en-US&page=";
+            var moviesUrl = "top_rated" + apiKey + "&language=en-US&page=";
             if (page != 0)
                 moviesUrl += page;
             string message = await client.GetStringAsync(url + moviesUrl);
