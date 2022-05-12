@@ -1,4 +1,5 @@
 using WebAPI.Data.Movies;
+using WebAPI.Data.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IMovieService, MovieService>();
+builder.Services.AddSingleton<IUserService, UserService>();
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
