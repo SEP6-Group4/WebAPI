@@ -7,24 +7,26 @@ namespace WebAPI.Data.Movies
     {
         string url = "https://api.themoviedb.org/3/movie/";
         HttpClient client;
+        private readonly IConfiguration configuration;
+        private string apiKey;
 
-        public MovieService()
+        public MovieService(IConfiguration iConfig)
         {
             client = new HttpClient();
+            configuration = iConfig;
+            apiKey = configuration["APIKeys:ApiKey"];
         }
 
         public async Task<Movie> GetMovieByID(int id)
         {
-            string message = await client.GetStringAsync(url + id + "?api_key=3294e1bdd7442d97a75d3a88e515b933");
-            Console.WriteLine(message);
+            string message = await client.GetStringAsync(url + id + apiKey);
             Movie movie = JsonSerializer.Deserialize<Movie>(message);
-            Console.WriteLine(movie.ToString());
             return movie;
         }
 
         public async Task<MovieList> GetMovies(int page)
         {
-            var moviesUrl = "top_rated?api_key=3294e1bdd7442d97a75d3a88e515b933&language=en-US&page=";
+            var moviesUrl = "top_rated" + apiKey + "&language=en-US&page=";
             if (page != 0)
                 moviesUrl += page;
             string message = await client.GetStringAsync(url + moviesUrl);
@@ -32,11 +34,21 @@ namespace WebAPI.Data.Movies
             return results;
         }
 
+
         public async Task<Credit> GetCreditsByMovieId(int movieId)
         {
             string message = await client.GetStringAsync(url + movieId + "/credits?api_key=3294e1bdd7442d97a75d3a88e515b933&language=en-US");
             Credit result = JsonSerializer.Deserialize<Credit>(message);
             return result;
+        }
+        public async Task<MovieList> GetMoviesBySearch(int page, string query)
+        {
+            string newUrl = url.Remove(url.IndexOf('3') + 1); //the url is slightly different, so we have to do some string gymnastics here
+            Console.WriteLine(newUrl);
+            var moviesUrl = newUrl + "/search/movie?api_key=3294e1bdd7442d97a75d3a88e515b933&query=" + query + "&page=" + page;
+            string message = await client.GetStringAsync(moviesUrl);
+            MovieList results = JsonSerializer.Deserialize<MovieList>(message);
+            return results;
         }
     }
 }
