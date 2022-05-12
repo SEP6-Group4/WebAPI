@@ -34,6 +34,13 @@ namespace WebAPI.Data.Movies
             return results;
         }
 
+
+        public async Task<Credit> GetCreditsByMovieId(int movieId)
+        {
+            string message = await client.GetStringAsync(url + movieId + "/credits?api_key=3294e1bdd7442d97a75d3a88e515b933&language=en-US");
+            Credit result = JsonSerializer.Deserialize<Credit>(message);
+            return result;
+        }
         public async Task<MovieList> GetMoviesBySearch(int page, string query)
         {
             string newUrl = url.Remove(url.IndexOf('3') + 1); //the url is slightly different, so we have to do some string gymnastics here
