@@ -48,5 +48,22 @@ namespace WebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpGet("search/")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieList))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<MovieList>> SearchForMovies([FromQuery] int page, [FromQuery] string query)
+        {
+            try
+            {
+                MovieList movies = await movieService.GetMoviesBySearch(page, query);
+                return Ok(movies);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }

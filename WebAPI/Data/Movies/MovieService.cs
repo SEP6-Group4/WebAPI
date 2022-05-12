@@ -29,5 +29,15 @@ namespace WebAPI.Data.Movies
             MovieList results = JsonSerializer.Deserialize<MovieList>(message);
             return results;
         }
+
+        public async Task<MovieList> GetMoviesBySearch(int page, string query)
+        {
+            string newUrl = url.Remove(url.IndexOf('3') + 1); //the url is slightly different, so we have to do some string gymnastics here
+            Console.WriteLine(newUrl);
+            var moviesUrl = newUrl + "/search/movie?api_key=3294e1bdd7442d97a75d3a88e515b933&query=" + query + "&page=" + page;
+            string message = await client.GetStringAsync(moviesUrl);
+            MovieList results = JsonSerializer.Deserialize<MovieList>(message);
+            return results;
+        }
     }
 }
