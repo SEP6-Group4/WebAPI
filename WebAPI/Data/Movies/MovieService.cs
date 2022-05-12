@@ -31,5 +31,12 @@ namespace WebAPI.Data.Movies
             MovieList results = JsonSerializer.Deserialize<MovieList>(message);
             return results;
         }
+
+        public async Task<Credit> GetCreditsByMovieId(int movieId)
+        {
+            string message = await client.GetStringAsync(url + movieId + "/credits?api_key=3294e1bdd7442d97a75d3a88e515b933&language=en-US");
+            Credit result = JsonSerializer.Deserialize<Credit>(message);
+            return result;
+        }
     }
 }

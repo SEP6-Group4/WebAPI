@@ -48,5 +48,22 @@ namespace WebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpGet("{id}/credits")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Credit))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Credit>> GetCredits(int id)
+        {
+            try
+            {
+                Credit credit = await movieService.GetCreditsByMovieId(id);
+                return Ok(credit);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }
