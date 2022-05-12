@@ -11,10 +11,11 @@ namespace WebAPI.Data.User
     {
         IUserRepo repo;
 
-        public UserService()
+        public UserService(IConfiguration configuration)
         {
-            repo = new UserRepo();
+            repo = new UserRepo(configuration);
         }
+
 
         public async Task<string> GetEncryptedPassword(string password)
         {
@@ -57,6 +58,13 @@ namespace WebAPI.Data.User
             }
 
             return null;
+        }
+
+        public async Task CreateAccount(Models.User user)
+        {
+            string userPassword = user.Password;
+            user.Password = Encrypt.EncryptString(userPassword);
+            await repo.CreateAccountAsync(user);
         }
     }    
 }
