@@ -21,5 +21,15 @@ namespace WebAPI.Data.Movies
             Console.WriteLine(movie.ToString());
             return movie;
         }
+
+        public async Task<MovieList> GetMovies(int page)
+        {
+            var moviesUrl = "top_rated?api_key=3294e1bdd7442d97a75d3a88e515b933&language=en-US&page=";
+            if (page != 0)
+                moviesUrl += page;
+            string message = await client.GetStringAsync(url + moviesUrl);
+            MovieList results = JsonSerializer.Deserialize<MovieList>(message);
+            return results;
+        }
     }
 }
