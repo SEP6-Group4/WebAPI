@@ -11,7 +11,7 @@ namespace WebAPI.Models
         [JsonPropertyName("LastName")]
         public string? LastName { get; set; }
         [JsonPropertyName("Birthday")]
-        public DateOnly? Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
         [JsonPropertyName("Email")]
         public string? Email { get; set; }
         [JsonPropertyName("Country")]

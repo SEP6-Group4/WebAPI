@@ -29,18 +29,24 @@ namespace WebAPI.Persistence.User
 
         private static Models.User ReadUser(NpgsqlDataReader reader)
         {
-            Models.User user = new Models.User
+            try
             {
-                UserID = reader["UserID"] as int?,
-                FirstName = reader["First Name"] as string,
-                LastName = reader["Last Name"] as string,
-                Birthday = reader["Birthday"] as DateOnly?,
-                Email = reader["Email"] as string,
-                Country = reader["Country"] as string,
-                Password = reader["Password"] as string
-            };
-
-            return user;
+                Models.User user = new Models.User
+                {
+                    UserID = reader["UserID"] as int?,
+                    FirstName = reader["First Name"] as string,
+                    LastName = reader["Last Name"] as string,
+                    Birthday = reader["Birthday"] as DateTime?,
+                    Email = reader["Email"] as string,
+                    Country = reader["Country"] as string,
+                    Password = reader["Password"] as string
+                };
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }

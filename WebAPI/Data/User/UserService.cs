@@ -53,11 +53,9 @@ namespace WebAPI.Data.User
 
             if(user.Password == userToVerify.Password)
             {
-                Console.WriteLine("Verification success...");
                 return userToVerify;
             }
 
-            Console.WriteLine("Verification failed...");
             return null;
         }
     }    

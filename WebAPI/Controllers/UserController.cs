@@ -41,7 +41,6 @@ namespace WebAPI.Controllers
             }
             else
             {
-                Console.WriteLine("Successfully validated");
                 return Ok(validatedUser);
             }
         }
