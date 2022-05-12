@@ -10,7 +10,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        IUserService userService;
+        private IUserService userService;
 
         public UserController(IUserService userService)
         {
@@ -51,6 +51,13 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<string>> GetPasswordTest(string password)
         {
             return await userService.GetEncryptedPassword(password);
+        }
+
+        [HttpPost("createAccount")]
+        public async Task<ActionResult> CreateAccount([FromBody] User user)
+        {
+            await userService.CreateAccount(user);
+            return Ok();
         }
     }
 }
