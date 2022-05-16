@@ -32,14 +32,65 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("ByRatingDesc")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieList))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<MovieList>> GetMovies(int page)
+        public async Task<ActionResult<MovieList>> GetMoviesByRatingDesc(int page)
         {
             try
             {
-                MovieList movies = await movieService.GetMovies(page);
+                MovieList movies = await movieService.GetMoviesByRatingDesc(page);
+                return Ok(movies);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("ByRatingAsc")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieList))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<MovieList>> GetMoviesByRatingAsc(int page)
+        {
+            try
+            {
+                MovieList movies = await movieService.GetMoviesByRatingAsc(page);
+                return Ok(movies);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("ByTitleAsc")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieList))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<MovieList>> GetMoviesByTitleAsc(int page)
+        {
+            try
+            {
+                MovieList movies = await movieService.GetMoviesByTitleAsc(page);
+                return Ok(movies);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("ByTitleDesc")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieList))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<MovieList>> GetMoviesByTitleDesc(int page)
+        {
+            try
+            {
+                MovieList movies = await movieService.GetMoviesByTitleDesc(page);
                 return Ok(movies);
             }
             catch (Exception e)
