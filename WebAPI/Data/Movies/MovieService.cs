@@ -6,6 +6,7 @@ namespace WebAPI.Data.Movies
     public class MovieService : IMovieService
     {
         string url = "https://api.themoviedb.org/3/movie/";
+        string newUrl = "https://api.themoviedb.org/3/discover/movie";
         HttpClient client;
         private readonly IConfiguration configuration;
         private string apiKey;
@@ -24,12 +25,42 @@ namespace WebAPI.Data.Movies
             return movie;
         }
 
-        public async Task<MovieList> GetMovies(int page)
+        public async Task<MovieList> GetMoviesByRatingDesc(int page)
         {
-            var moviesUrl = "top_rated" + apiKey + "&language=en-US&page=";
+            var moviesUrl =  apiKey + "&language=en-US&sort_by=vote_average.desc&vote_count.gte=215&vote_average.gte=3&page=";
             if (page != 0)
                 moviesUrl += page;
-            string message = await client.GetStringAsync(url + moviesUrl);
+            string message = await client.GetStringAsync(newUrl + moviesUrl);
+            MovieList results = JsonSerializer.Deserialize<MovieList>(message);
+            return results;
+        }
+
+        public async Task<MovieList> GetMoviesByRatingAsc(int page)
+        {
+            var moviesUrl = apiKey + "&language=en-US&sort_by=vote_average.asc&vote_count.gte=215&vote_average.gte=3&page=";
+            if (page != 0)
+                moviesUrl += page;
+            string message = await client.GetStringAsync(newUrl + moviesUrl);
+            MovieList results = JsonSerializer.Deserialize<MovieList>(message);
+            return results;
+        }
+
+        public async Task<MovieList> GetMoviesByTitleAsc(int page)
+        {
+            var moviesUrl = apiKey + "&language=en-US&sort_by=original_title.asc&vote_count.gte=215&vote_average.gte=3&page=";
+            if (page != 0)
+                moviesUrl += page;
+            string message = await client.GetStringAsync(newUrl + moviesUrl);
+            MovieList results = JsonSerializer.Deserialize<MovieList>(message);
+            return results;
+        }
+
+        public async Task<MovieList> GetMoviesByTitleDesc(int page)
+        {
+            var moviesUrl = apiKey + "&language=en-US&sort_by=original_title.desc&vote_count.gte=215&vote_average.gte=3&page=";
+            if (page != 0)
+                moviesUrl += page;
+            string message = await client.GetStringAsync(newUrl + moviesUrl);
             MovieList results = JsonSerializer.Deserialize<MovieList>(message);
             return results;
         }
