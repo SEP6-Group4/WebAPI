@@ -30,5 +30,17 @@ namespace WebAPI.Models
 
         [JsonPropertyName("order")]
         public int Order { get; set; }
+
+        [JsonPropertyName("biography")]
+        public string? Biography { get; set; }
+
+        [JsonPropertyName("birthday")]
+        public string? Birthday { get; set; }
+
+        [JsonPropertyName("place_of_birth")]
+        public string? place_of_birth { get; set; }
+
+        [JsonPropertyName("deathday")]
+        public string? Deathday { get; set; }
     }
 }
