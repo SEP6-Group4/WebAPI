@@ -1,3 +1,4 @@
+using WebAPI.Data.Favorites;
 using WebAPI.Data.Movies;
 using WebAPI.Data.User;
 
@@ -11,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IMovieService, MovieService>();
 builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<IFavoriteMovieService, FavoriteMovieService>();
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
