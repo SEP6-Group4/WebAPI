@@ -48,7 +48,9 @@ namespace WebAPI.Persistence.User
                     Birthday = reader["Birthday"] as DateTime?,
                     Email = reader["Email"] as string,
                     Country = reader["Country"] as string,
-                    Password = reader["Password"] as string
+                    Password = reader["Password"] as string,
+                    AgeGroup = reader["AgeGroup"] as int?,
+                    Age = reader["Age"] as int?
                 };
                 return user;
             }
@@ -63,7 +65,7 @@ namespace WebAPI.Persistence.User
             using var con = new NpgsqlConnection(connectionString);
             con.Open();
 
-            string command = $"INSERT INTO public.\"User\"(\"First Name\", \"Last Name\", \"Birthday\", \"Email\", \"Country\", \"Password\") VALUES (@FirstName, @LastName, @Birthday, @Email, @Country, @Password);";
+            string command = $"INSERT INTO public.\"User\"(\"First Name\", \"Last Name\", \"Birthday\", \"Email\", \"Country\", \"Password\", \"AgeGroup\", \"Age\") VALUES (@FirstName, @LastName, @Birthday, @Email, @Country, @Password, @AgeGroup, @Age);";
             await using (NpgsqlCommand cmd = new NpgsqlCommand(command, con))
             {
                 cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
@@ -72,6 +74,8 @@ namespace WebAPI.Persistence.User
                 cmd.Parameters.AddWithValue("@Email", user.Email);
                 cmd.Parameters.AddWithValue("@Country", user.Country);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@AgeGroup", user.AgeGroup);
+                cmd.Parameters.AddWithValue("@Age", user.Age);
 
                 cmd.ExecuteNonQuery();
             }

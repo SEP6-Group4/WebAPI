@@ -110,13 +110,13 @@ namespace WebAPI.Controllers
             {
                 Credit credit = await movieService.GetCreditsByMovieId(id);
                 return Ok(credit);
-                }
+            }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return StatusCode(500, e.Message);
             }
-         }
+        }
 
         [HttpGet("search/")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MovieList))]
