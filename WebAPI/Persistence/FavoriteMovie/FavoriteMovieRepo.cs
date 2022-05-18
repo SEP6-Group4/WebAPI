@@ -22,6 +22,8 @@ namespace WebAPI.Persistence.FavoriteMovie
         /// <returns></returns>
         public async Task AddFavoriteMovie(int userID, int movieID)
         {
+            if (await GetIsFavoriteMovieByID(userID, movieID)) return; //if the movie is already marked as favorite, just return
+
             using var con = new NpgsqlConnection(connectionString);
             con.Open();
 
@@ -94,6 +96,8 @@ namespace WebAPI.Persistence.FavoriteMovie
         /// <returns></returns>
         public async Task RemoveFavoriteMovieByID(int userID, int movieID)
         {
+            if (await GetIsFavoriteMovieByID(userID, movieID) == false) return; //if the movie is not a favorite, just return
+
             using var con = new NpgsqlConnection(connectionString);
             con.Open();
 
