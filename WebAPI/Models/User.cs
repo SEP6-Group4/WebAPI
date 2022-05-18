@@ -18,5 +18,9 @@ namespace WebAPI.Models
         public string? Country { get; set; }
         [JsonPropertyName("Password")]
         public string? Password { get; set; }
+        [JsonPropertyName("AgeGroup")]
+        public int? AgeGroup { get; set; }
+        [JsonPropertyName("Age")]
+        public int? Age { get; set; }
     }
 }
