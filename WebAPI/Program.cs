@@ -2,6 +2,7 @@ using WebAPI.Data.Favorites;
 using WebAPI.Data.Actors;
 using WebAPI.Data.Movies;
 using WebAPI.Data.User;
+using WebAPI.Data.FavouriteActor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddSingleton<IMovieService, MovieService>();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<IFavoriteMovieService, FavoriteMovieService>();
 builder.Services.AddSingleton<IActorService, ActorService>();
+builder.Services.AddSingleton<IFavouriteActorService, FavouriteActorService>();
 
 builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
 {
