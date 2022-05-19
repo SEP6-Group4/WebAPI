@@ -27,7 +27,7 @@ namespace WebAPI.Data.Movies
 
         public async Task<MovieList> GetMoviesByRatingDesc(int page)
         {
-            var moviesUrl =  apiKey + "&language=en-US&sort_by=vote_average.desc&vote_count.gte=215&vote_average.gte=3&page=";
+            var moviesUrl = apiKey + "&language=en-US&sort_by=vote_average.desc&vote_count.gte=215&vote_average.gte=3&page=";
             if (page != 0)
                 moviesUrl += page;
             string message = await client.GetStringAsync(newUrl + moviesUrl);
