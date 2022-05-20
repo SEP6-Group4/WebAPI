@@ -39,8 +39,25 @@ namespace WebAPI.Controllers
         public async Task<bool> GetIsFavoriteMovieByID([FromQuery] int userID, [FromQuery] int movieID)
         {
             return await favoriteMovieService.GetIsFavoriteMovieByID(userID, movieID);
-        }        
+        }
 
+        [HttpGet("getFavoriteMovieCount")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<int>> GetFavoriteMovieCount([FromQuery] int movieID)
+        {
+            int count =  await favoriteMovieService.GetFavoriteMovieCount(movieID);
+            return  Ok(count);
+        }
+
+        [HttpGet("getFavoriteMovieIdsByAgeGroup")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<IdCount>>> GetFavoriteMovieIdsByAgeGroup([FromQuery] int ageGroup)
+        {
+            List<IdCount> movieIDs = await favoriteMovieService.GetFavoriteMoviesByAgeGroup(ageGroup);
+            return Ok(movieIDs);
+        }
 
         [HttpDelete("removeFavorite")]
         [ProducesResponseType(StatusCodes.Status200OK)]

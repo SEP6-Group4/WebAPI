@@ -20,6 +20,18 @@ namespace WebAPI.Data.Favorites
             await repo.AddFavoriteMovie(userID, movieID);
         }
 
+        public async Task<int> GetFavoriteMovieCount(int movieID)
+        {
+            int count = await repo.GetFavoriteMovieCount(movieID);
+            return count;
+        }
+
+        public async Task<List<IdCount>> GetFavoriteMoviesByAgeGroup(int ageGroup)
+        {
+            List<IdCount> moveIDs = await repo.GetFavoriteMoviesByAgeGroup(ageGroup);
+            return moveIDs;
+        }
+
         public async Task<MovieList> GetFavoriteMoviesByID(int userID)
         {
             var movieList = await repo.GetFavoriteMoviesByID(userID);
