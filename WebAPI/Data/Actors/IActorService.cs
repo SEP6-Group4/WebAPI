@@ -6,5 +6,7 @@ namespace WebAPI.Data.Actors
     {
         Task<Actor> GetActorByID(int id);
         Task<MovieCredit> GetMovieCreditsByActorId(int actorId);
+        Task<ActorList> GetPopularActors(int page);
+        Task<ActorList> GetActorsBySearch(int page, string query);
     }
 }

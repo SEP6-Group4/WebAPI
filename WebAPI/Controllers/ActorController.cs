@@ -48,5 +48,39 @@ namespace WebAPI.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        [HttpGet("popularActors")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActorList))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ActorList>> GetPopularActors(int page)
+        {
+            try
+            {
+                ActorList actors = await actorService.GetPopularActors(page);
+                return Ok(actors);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("search/")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActorList))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ActorList>> SearchForActors([FromQuery] int page, [FromQuery] string query)
+        {
+            try
+            {
+                ActorList actors = await actorService.GetActorsBySearch(page, query);
+                return Ok(actors);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }
