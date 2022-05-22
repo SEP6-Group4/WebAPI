@@ -14,6 +14,8 @@ namespace WebAPI.Persistence.FavoriteMovie
 
         Task<int> GetFavoriteMovieCount(int movieID);
 
+        Task<List<IdCount>> GetFavoriteMoviesByAll();
+
         Task<List<IdCount>> GetFavoriteMoviesByAgeGroup(int ageGroup);
     }
 }

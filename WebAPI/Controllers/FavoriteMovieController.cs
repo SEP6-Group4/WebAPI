@@ -33,6 +33,14 @@ namespace WebAPI.Controllers
             return await favoriteMovieService.GetFavoriteMoviesByID(userID);
         }
 
+        [HttpGet("getFavoritesByUser")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<List<Movie>> GetFavoriteMoviesByUser([FromQuery] int userID)
+        {
+            return await favoriteMovieService.GetFavoriteMoviesByUser(userID);
+        }
+
         [HttpGet("getFavorite")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -56,6 +64,15 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<List<IdCount>>> GetFavoriteMovieIdsByAgeGroup([FromQuery] int ageGroup)
         {
             List<IdCount> movieIDs = await favoriteMovieService.GetFavoriteMoviesByAgeGroup(ageGroup);
+            return Ok(movieIDs);
+        }
+
+        [HttpGet("getFavoriteMovieIdsByAll")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<List<IdCount>>> GetFavoriteMovieIdsByAll()
+        {
+            List<IdCount> movieIDs = await favoriteMovieService.GetFavoriteMoviesByAll();
             return Ok(movieIDs);
         }
 

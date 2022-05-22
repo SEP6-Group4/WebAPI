@@ -149,11 +149,33 @@ namespace WebAPI.Persistence.FavoriteMovie
                     {
                         int? idToAdd = reader["MovieID"] as int?;
                         long? countToAdd = reader["count"] as long?;
-                        if (idToAdd != null && countToAdd != null) movieIDs.Add(new IdCount {MovieId = (int)idToAdd, count = (int)countToAdd});
+                        if (idToAdd != null && countToAdd != null) movieIDs.Add(new IdCount { MovieId = (int)idToAdd, count = (int)countToAdd });
                     }
+                con.Close();
                 return movieIDs;
             }
-            con.Close();
+            return null;
+        }
+
+        public async Task<List<IdCount>> GetFavoriteMoviesByAll()
+        {
+            using var con = new NpgsqlConnection(connectionString);
+            con.Open();
+            List<IdCount> movieIDs = new List<IdCount>();
+
+            string command = $"SELECT \"MovieID\", COUNT(\"MovieID\") FROM public.\"FavouriteMovie\" GROUP BY \"MovieID\" ORDER BY count DESC LIMIT 5;";
+            await using (NpgsqlCommand cmd = new NpgsqlCommand(command, con))
+            {
+                await using (NpgsqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    while (await reader.ReadAsync())
+                    {
+                        int? idToAdd = reader["MovieID"] as int?;
+                        long? countToAdd = reader["count"] as long?;
+                        if (idToAdd != null && countToAdd != null) movieIDs.Add(new IdCount { MovieId = (int)idToAdd, count = (int)countToAdd });
+                    }
+                con.Close();
+                return movieIDs;
+            }
             return null;
         }
     }
