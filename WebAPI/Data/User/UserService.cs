@@ -16,12 +16,6 @@ namespace WebAPI.Data.User
             repo = new UserRepo(configuration);
         }
 
-
-        public async Task<string> GetEncryptedPassword(string password)
-        {
-            return Encrypt.EncryptString(password);
-        }
-
         public async Task<Models.User> ValidateUser(Models.User user)
         {
             user.Password = Encrypt.EncryptString(user.Password);
@@ -65,6 +59,18 @@ namespace WebAPI.Data.User
             string userPassword = user.Password;
             user.Password = Encrypt.EncryptString(userPassword);
             await repo.CreateAccountAsync(user);
+        }
+
+        public async Task UpdateAccountAsync(Models.User user)
+        {
+            string userPassword = user.Password;
+            user.Password = Encrypt.EncryptString(userPassword);
+            await repo.UpdateAccountAsync(user);
+        }
+
+        public async Task<Models.User> GetUserByID(int id)
+        {
+            return await repo.GetUserByID(id);
         }
     }    
 }

@@ -45,6 +45,21 @@ namespace WebAPI.Controllers
             }
         }
 
+        [HttpGet("get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<User>> GetUserByID([FromQuery] int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            User user = await userService.GetUserByID(id);
+
+            return Ok(user);
+        }
+
         [HttpGet("{password}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -57,6 +72,13 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> CreateAccount([FromBody] User user)
         {
             await userService.CreateAccount(user);
+            return Ok();
+        }
+
+        [HttpPut("updateAccount")]
+        public async Task<ActionResult> UpdateAccount([FromBody] User user)
+        {
+            await userService.UpdateAccountAsync(user);
             return Ok();
         }
     }

@@ -7,5 +7,6 @@
         Task RemoveActorFromFavourite(int userId, int actorId);
 
         Task<List<int>> GetFavouriteActorIds(int userId);
+        Task<List<int>> GetFavouriteActorIdsByEmail(string email);
     }
 }

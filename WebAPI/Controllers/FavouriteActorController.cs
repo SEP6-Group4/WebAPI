@@ -40,5 +40,14 @@ namespace WebAPI.Controllers
             return await service.GetFavouriteActorIds(userId);
             
         }
+
+        [HttpGet("GetFavouriteActorIdsByEmail/{email}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<List<int>> GetFavouriteActorIds(string email)
+        {
+            return await service.GetFavouriteActorIdsByEmail(email);
+
+        }
     }
 }
