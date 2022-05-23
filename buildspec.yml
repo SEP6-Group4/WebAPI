@@ -10,12 +10,7 @@ phases:
   install:
     runtime-versions:
       dotnet: ${DOTNET_CORE_RUNTIME}
-      
-  pre_build:
-    commands:
-      - echo Restore started on `date`
-      - dotnet restore
-      
+
   build:
     commands:
       - echo Build started on `date`
