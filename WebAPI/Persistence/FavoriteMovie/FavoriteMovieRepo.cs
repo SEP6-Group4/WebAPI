@@ -80,7 +80,7 @@ namespace WebAPI.Persistence.FavoriteMovie
 
             foreach (var movie in movieIDs)
             {
-                if(movie == movieID)
+                if (movie == movieID)
                 {
                     return true;
                 }
@@ -110,6 +110,73 @@ namespace WebAPI.Persistence.FavoriteMovie
                 cmd.ExecuteNonQuery();
             }
             con.Close();
+        }
+
+        public async Task<int> GetFavoriteMovieCount(int movieID)
+        {
+            using var con = new NpgsqlConnection(connectionString);
+            con.Open();
+            int count = 0;
+
+            string command = $"SELECT COUNT(\"MovieID\") FROM public.\"FavouriteMovie\" WHERE \"MovieID\" = @movieID;";
+            await using (NpgsqlCommand cmd = new NpgsqlCommand(command, con))
+            {
+                cmd.Parameters.AddWithValue("@movieID", movieID);
+
+                await using (NpgsqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    while (await reader.ReadAsync())
+                    {
+                        count = Int32.Parse(reader["count"].ToString());
+                    }
+            }
+            con.Close();
+            return count;
+        }
+
+        public async Task<List<IdCount>> GetFavoriteMoviesByAgeGroup(int ageGroup)
+        {
+            using var con = new NpgsqlConnection(connectionString);
+            con.Open();
+            List<IdCount> movieIDs = new List<IdCount>();
+
+            string command = $"SELECT \"MovieID\", COUNT(\"MovieID\") FROM public.\"FavouriteMovie\" WHERE \"UserID\" IN (SELECT \"UserID\" FROM public.\"User\" WHERE \"AgeGroup\" = @ageGroup) GROUP BY \"MovieID\" ORDER BY count DESC LIMIT 5";
+            await using (NpgsqlCommand cmd = new NpgsqlCommand(command, con))
+            {
+                cmd.Parameters.AddWithValue("@ageGroup", ageGroup);
+
+                await using (NpgsqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    while (await reader.ReadAsync())
+                    {
+                        int? idToAdd = reader["MovieID"] as int?;
+                        long? countToAdd = reader["count"] as long?;
+                        if (idToAdd != null && countToAdd != null) movieIDs.Add(new IdCount { MovieId = (int)idToAdd, count = (int)countToAdd });
+                    }
+                con.Close();
+                return movieIDs;
+            }
+            return null;
+        }
+
+        public async Task<List<IdCount>> GetFavoriteMoviesByAll()
+        {
+            using var con = new NpgsqlConnection(connectionString);
+            con.Open();
+            List<IdCount> movieIDs = new List<IdCount>();
+
+            string command = $"SELECT \"MovieID\", COUNT(\"MovieID\") FROM public.\"FavouriteMovie\" GROUP BY \"MovieID\" ORDER BY count DESC LIMIT 5;";
+            await using (NpgsqlCommand cmd = new NpgsqlCommand(command, con))
+            {
+                await using (NpgsqlDataReader reader = await cmd.ExecuteReaderAsync())
+                    while (await reader.ReadAsync())
+                    {
+                        int? idToAdd = reader["MovieID"] as int?;
+                        long? countToAdd = reader["count"] as long?;
+                        if (idToAdd != null && countToAdd != null) movieIDs.Add(new IdCount { MovieId = (int)idToAdd, count = (int)countToAdd });
+                    }
+                con.Close();
+                return movieIDs;
+            }
+            return null;
         }
     }
 }

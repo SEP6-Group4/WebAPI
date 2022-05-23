@@ -31,6 +31,36 @@ namespace WebAPI.Data.Favorites
 
             return await GetFavoriteMoviesByID((int)user.UserID);
         }
+        public async Task<int> GetFavoriteMovieCount(int movieID)
+        {
+            int count = await repo.GetFavoriteMovieCount(movieID);
+            return count;
+        }
+
+        public async Task<List<IdCount>> GetFavoriteMoviesByAgeGroup(int ageGroup)
+        {
+            List<IdCount> moveIDs = await repo.GetFavoriteMoviesByAgeGroup(ageGroup);
+            return moveIDs;
+        }
+
+        public async Task<List<IdCount>> GetFavoriteMoviesByAll()
+        {
+            List<IdCount> moveIDs = await repo.GetFavoriteMoviesByAll();
+            return moveIDs;
+        }
+
+        public async Task<List<Movie>> GetFavoriteMoviesByUser(int userID)
+        {
+            var movieIdList = await repo.GetFavoriteMoviesByID(userID);
+
+            List<Movie> toReturn = new List<Movie>();
+            
+            foreach (var movieId in movieIdList)
+            {
+                toReturn.Add(await movieService.GetMovieByID(movieId));
+            }
+            return toReturn;
+        }
 
         public async Task<MovieList> GetFavoriteMoviesByID(int userID)
         {
