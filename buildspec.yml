@@ -26,5 +26,5 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: WebAPI/bin/Release/net6.0/win-x64/publish/
+  base-directory: WebAPI/bin/Release/net6.0/win-x64/
   discard-paths: no
