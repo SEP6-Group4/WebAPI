@@ -27,6 +27,5 @@ namespace WebAPI.Models
         {
             return JsonSerializer.Serialize(this);
         }
-
     }
 }
