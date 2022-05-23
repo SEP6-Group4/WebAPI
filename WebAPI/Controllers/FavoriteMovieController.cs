@@ -33,13 +33,21 @@ namespace WebAPI.Controllers
             return await favoriteMovieService.GetFavoriteMoviesByID(userID);
         }
 
+
+        [HttpGet("getFavoritesByEmail")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<MovieList> GetFavoriteMoviesByEmail([FromQuery] string email)
+        {
+            return await favoriteMovieService.GetFavoriteMoviesByEmail(email);
+        }
         [HttpGet("getFavoritesByUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<List<Movie>> GetFavoriteMoviesByUser([FromQuery] int userID)
         {
             return await favoriteMovieService.GetFavoriteMoviesByUser(userID);
-        }
+        }        
 
         [HttpGet("getFavorite")]
         [ProducesResponseType(StatusCodes.Status200OK)]

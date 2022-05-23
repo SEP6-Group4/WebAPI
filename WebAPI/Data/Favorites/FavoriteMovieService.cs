@@ -1,6 +1,7 @@
 ﻿using WebAPI.Data.Movies;
 using WebAPI.Models;
 using WebAPI.Persistence.FavoriteMovie;
+using WebAPI.Persistence.User;
 
 namespace WebAPI.Data.Favorites
 {
@@ -8,11 +9,13 @@ namespace WebAPI.Data.Favorites
     {
         IFavoriteMovieRepo repo;
         IMovieService movieService;
+        IUserRepo userRepo;
 
         public FavoriteMovieService(IConfiguration configuration)
         {
             repo = new FavoriteMovieRepo(configuration);
             movieService = new MovieService(configuration);
+            userRepo = new UserRepo(configuration);
         }
 
         public async Task AddFavoriteMovie(int userID, int movieID)
@@ -20,6 +23,14 @@ namespace WebAPI.Data.Favorites
             await repo.AddFavoriteMovie(userID, movieID);
         }
 
+        public async Task<MovieList> GetFavoriteMoviesByEmail(string email)
+        {
+            Models.User user = await userRepo.GetUserAsync(email);
+
+            if (user.FavouritePrivacy == true) return null;
+
+            return await GetFavoriteMoviesByID((int)user.UserID);
+        }
         public async Task<int> GetFavoriteMovieCount(int movieID)
         {
             int count = await repo.GetFavoriteMovieCount(movieID);

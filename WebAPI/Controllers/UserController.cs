@@ -45,18 +45,32 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet("{password}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+        [HttpGet("get")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<string>> GetPasswordTest(string password)
+        public async Task<ActionResult<User>> GetUserByID([FromQuery] int id)
         {
-            return await userService.GetEncryptedPassword(password);
-        }
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            User user = await userService.GetUserByID(id);
+
+            return Ok(user);
+        }        
 
         [HttpPost("createAccount")]
         public async Task<ActionResult> CreateAccount([FromBody] User user)
         {
             await userService.CreateAccount(user);
+            return Ok();
+        }
+
+        [HttpPut("updateAccount")]
+        public async Task<ActionResult> UpdateAccount([FromBody] User user)
+        {
+            await userService.UpdateAccountAsync(user);
             return Ok();
         }
     }
