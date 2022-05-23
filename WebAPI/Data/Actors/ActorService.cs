@@ -30,5 +30,22 @@ namespace WebAPI.Data.Actors
             MovieCredit result = JsonSerializer.Deserialize<MovieCredit>(message);
             return result;
         }
+
+        public async Task<ActorList> GetPopularActors(int page)
+        {
+            string message = await client.GetStringAsync(url + "popular" + apiKey + "&language=en-US&page=" + page);
+            ActorList result = JsonSerializer.Deserialize<ActorList>(message);
+            return result;
+        }
+
+        public async Task<ActorList> GetActorsBySearch(int page, string query)
+        {
+            string newUrl = url.Remove(url.IndexOf('3') + 1); //the url is slightly different, so we have to do some string gymnastics here
+            Console.WriteLine(newUrl);
+            var moviesUrl = newUrl + "/search/person" + apiKey + "&query=" + query + "&page=" + page;
+            string message = await client.GetStringAsync(moviesUrl);
+            ActorList results = JsonSerializer.Deserialize<ActorList>(message);
+            return results;
+        }
     }
 }
