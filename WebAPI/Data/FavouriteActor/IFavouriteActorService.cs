@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Data.FavouriteActor
+﻿using WebAPI.Models;
+
+namespace WebAPI.Data.FavouriteActor
 {
     public interface IFavouriteActorService
     {
@@ -7,6 +9,6 @@
         Task RemoveActorFromFavourite(int userId, int actorId);
 
         Task<List<int>> GetFavouriteActorIds(int userId);
-        Task<List<int>> GetFavouriteActorIdsByEmail(string email);
+        Task<List<Actor>> GetFavouriteActorIdsByEmail(string email);
     }
 }

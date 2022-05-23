@@ -26,6 +26,9 @@ namespace WebAPI.Data.Favorites
         public async Task<MovieList> GetFavoriteMoviesByEmail(string email)
         {
             Models.User user = await userRepo.GetUserAsync(email);
+
+            if (user.FavouritePrivacy == true) return null;
+
             return await GetFavoriteMoviesByID((int)user.UserID);
         }
 

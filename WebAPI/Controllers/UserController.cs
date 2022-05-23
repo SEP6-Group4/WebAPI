@@ -58,15 +58,7 @@ namespace WebAPI.Controllers
             User user = await userService.GetUserByID(id);
 
             return Ok(user);
-        }
-
-        [HttpGet("{password}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<string>> GetPasswordTest(string password)
-        {
-            return await userService.GetEncryptedPassword(password);
-        }
+        }        
 
         [HttpPost("createAccount")]
         public async Task<ActionResult> CreateAccount([FromBody] User user)

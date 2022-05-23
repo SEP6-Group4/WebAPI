@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebAPI.Data.FavouriteActor;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -44,7 +45,7 @@ namespace WebAPI.Controllers
         [HttpGet("GetFavouriteActorIdsByEmail/{email}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<List<int>> GetFavouriteActorIds(string email)
+        public async Task<List<Actor>> GetFavouriteActorIdsByEmail(string email)
         {
             return await service.GetFavouriteActorIdsByEmail(email);
 
