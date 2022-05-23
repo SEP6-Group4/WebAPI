@@ -5,7 +5,7 @@ version: 0.2
 phases:   
   install:
     runtime-versions:
-      dotnet: 3.1
+      dotnet: latest
       
   pre_build:
     commands:
@@ -21,10 +21,10 @@ phases:
     commands:
       - echo Publish started on `date`
       # https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/dotnet-linux-platform-bundle-app.html
-      - dotnet publish -c Release -r linux-x64 --self-contained false WebAPI.csproj
+      - dotnet publish -c Release -r win-x64 --self-contained false WebAPI.csproj
       
 artifacts:
   files:
     - '**/*'
-  base-directory: ./bin/Release/net6.0/linux-x64/publish/
+  base-directory: bin/Release/net6.0/publish/
   discard-paths: no
