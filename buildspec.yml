@@ -4,7 +4,7 @@ version: 0.2
 env:
    variables:
      PROJECT: WebAPI
-     DOTNET_CORE_RUNTIME: 6.0
+     DOTNET_CORE_RUNTIME: 3.1
 
 phases:   
   install:
