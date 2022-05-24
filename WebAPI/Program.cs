@@ -32,7 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors("corsapp");
 app.UseAuthorization();
 
@@ -41,6 +41,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
+
 
 
 app.MapControllers();
