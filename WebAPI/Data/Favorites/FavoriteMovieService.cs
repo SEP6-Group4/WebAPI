@@ -27,7 +27,7 @@ namespace WebAPI.Data.Favorites
         {
             Models.User user = await userRepo.GetUserAsync(email);
 
-            if (user.FavouritePrivacy == true) return null;
+            if (user == null || user.FavouritePrivacy == true) return null;
 
             return await GetFavoriteMoviesByID((int)user.UserID);
         }
