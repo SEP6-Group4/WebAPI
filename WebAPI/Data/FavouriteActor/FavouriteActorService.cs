@@ -38,8 +38,8 @@ namespace WebAPI.Data.FavouriteActor
         {
             Models.User user = await userRepo.GetUserAsync(email);
 
+            if (user == null) return null;
             if (user.FavouritePrivacy == true) return null;
-
             List<int> actorIds = await repo.GetFavouriteActorIds((int)user.UserID);
             List<Actor> actors = new List<Actor>();
             foreach (var actorId in actorIds)
